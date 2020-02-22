@@ -87,13 +87,13 @@ openssl genrsa -out RootCA.key 4096
 openssl req -new -x509 -days 1826 -key RootCA.key -out RootCA.crt
   
 **3. Generate Intermediate CA certificate key**  
-openssl genrsa -out webrtc.key 4096
+openssl genrsa -out Intermediate.key 4096
   
 **4. Generate Intermediate CA CSR**  
-openssl req -new -key webrtc.key -out webrtc.csr
+openssl req -new -key Intermediate.key -out Intermediate.csr
   
 **5. Sign the Intermediate CA by the Root CA**  
-openssl req -x509 -days 1000 -in webrtc.csr -CA RootCA.crt -CAkey RootCA.key -CAcreateserial webrtc.crt
+openssl req -x509 -days 1000 -in Intermediate.csr -CA RootCA.crt -CAkey RootCA.key -CAcreateserial Intermediate.crt
   
 **6. Generate Server certificate key**  
 openssl genrsa -out RootCA.key 2048
@@ -102,7 +102,7 @@ openssl genrsa -out RootCA.key 2048
 openssl req -new -key Server.key -out Server.csr
   
 **8. Sign the Server Certificate CSR using the Intermediate CA**  
-openssl req -x509 -days 1000 -in Server.csr -CA webrtc.crt -CAkey RootCA.key -set_serial 0101 -out Server.crt -sha1
+openssl req -x509 -days 1000 -in Server.csr -CA Intermediate.crt -CAkey RootCA.key -set_serial 0101 -out Server.crt -sha1
   
 The certificate in the trusted store in Linux  
 cp *.crt  /usr/local/share/ca-certificates/  
