@@ -1,7 +1,7 @@
 OpenSSL Version
 openssl version -a
 
-**Linux / Unix servers:**
+**Linux / Unix servers:**  
 openssl genrsa -des3 -out <private-key-file-name.key> 2048
 
 --
