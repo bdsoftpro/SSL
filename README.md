@@ -79,36 +79,36 @@ openssl pkcs12 -inkey domain.key -in domain.crt -export -out domain.pfx
 Convert PKCS12 to PEM
 openssl pkcs12 -in domain.pfx -nodes -out domain.combined.crt
 
--------------------------------------------------------------
-Create Certificate chain and sign certificates using Openssl
--------------------------------------------------------------
-Generate Root Certificate key
-openssl genrsa –out RootCA.key 4096
-
-Generate Root certificate
-openssl req –new –x509 –days 1826 –key RootCA.key –out RootCA.crt
-
-Generate Intermediate CA certificate key
-openssl genrsa –out IntermediateCA.key 4096
-
-Generate Intermediate CA CSR
-openssl req –new –key IntermediateCA.key –out IntermediateCA.csr
-
-Sign the Intermediate CA by the Root CA
-openssl x509 –req –days 1000 –in IntermediateCA.csr –CA RootCA.crt –CAkey key – CAcreateserial –out IntermediateCA.crt
-
-Generate Server certificate key
-openssl genrsa –out Server.key 2048
-
-Generate Server certificate CSR
-openssl req –new –key Server.key –out Server.csr
-
-Sign the Server Certificate CSR using the Intermediate CA
-openssl x509 –req –days 1000 –in Server.csr –CA IntermediateCA.crt –CAkey key – set_serial 0101  –out Server.crt –sha1
-
-The certificate in the trusted store in Linux
-cp *.crt  /usr/local/share/ca-certificates/
-update-ca-certificates
-
-Verify the certificate.
-openssl x509 –in Server.crt –noout –text | grep 'host.local'
+## Create Certificate chain and sign certificates using Openssl  
+**1. Generate Root Certificate key**  
+openssl genrsa -out RootCA.key 4096
+  
+**2. Generate Root certificate**  
+openssl req -new -x509 -days 1826 -key RootCA.key -out RootCA.crt
+  
+**3. Generate Intermediate CA certificate key**  
+openssl genrsa -out webrtc.key 4096
+  
+**4. Generate Intermediate CA CSR**  
+openssl req -new -key webrtc.key -out webrtc.csr
+  
+**5. Sign the Intermediate CA by the Root CA**  
+openssl req -x509 -days 1000 -in webrtc.csr -CA RootCA.crt -CAkey RootCA.key -CAcreateserial webrtc.crt
+  
+**6. Generate Server certificate key**  
+openssl genrsa -out RootCA.key 2048
+  
+**7. Generate Server certificate CSR**  
+openssl req -new -key Server.key -out Server.csr
+  
+**8. Sign the Server Certificate CSR using the Intermediate CA**  
+openssl req -x509 -days 1000 -in Server.csr -CA webrtc.crt -CAkey RootCA.key -set_serial 0101 -out Server.crt -sha1
+  
+The certificate in the trusted store in Linux  
+cp *.crt  /usr/local/share/ca-certificates/  
+update-ca-certificates  
+  
+Verify the certificate.  
+openssl x509 –in Server.crt –noout –text | grep 'host.local'  
+  
+  
