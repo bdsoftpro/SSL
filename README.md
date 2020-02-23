@@ -115,7 +115,7 @@ openssl verify -CAfile RootCA.crt -untrusted Intermediate.crt Server.crt
 or  
 openssl verify -verbose -CAfile <(cat Intermediate.crt RootCA.crt) Server.crt  
 or  
-[Buiding Tutorial](https://dadhacks.org/2017/12/27/building-a-root-ca-and-an-intermediate-ca-using-openssl-and-debian-stretch/)
+[Buiding Tutorial](https://dadhacks.org/2017/12/27/building-a-root-ca-and-an-intermediate-ca-using-openssl-and-debian-stretch/)  
 or  
 [Only Certificate](https://gist.github.com/cecilemuller/9492b848eb8fe46d462abeb26656c4f8)
   
