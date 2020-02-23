@@ -111,7 +111,7 @@ openssl verify -verbose -CAfile RootCA.crt Intermediate.crt
 **Server CA**  
 openssl verify -verbose -CAfile Intermediate.crt Server.crt  
 or  
-openssl verify -CAfile RootCA.crt -untrusted Intermediate.crt Server.crt
+openssl verify -CAfile RootCA.crt -untrusted Intermediate.crt Server.crt  
 or  
-openssl verify -verbose -CAfile <(cat Intermediate.crt RootCA.crt) Server.crt
+openssl verify -verbose -CAfile <(cat Intermediate.crt RootCA.crt) Server.crt  
   
