@@ -98,13 +98,18 @@ openssl genrsa -out Server.key 2048
 openssl req -new -key Server.key -out Server.csr
   
 **8. Sign the Server Certificate CSR using the Intermediate CA**  
-openssl x509 -req -in Server.csr -CA Intermediate.crt -CAkey Intermediate.key -set_serial 0101 -out Server.crt -sha1
+openssl x509 -req -days 1000 -in Server.csr -CA Intermediate.crt -CAkey Intermediate.key -set_serial 0101 -out Server.crt -sha1
   
 The certificate in the trusted store in Linux  
 cp *.crt  /usr/local/share/ca-certificates/  
 update-ca-certificates  
   
-Verify the certificate.  
-openssl x509 –in Server.crt –noout –text | grep 'host.local'  
+### Verify the certificate.  
+**Intermediate CA**  
+openssl verify -verbose -CAfile RootCA.crt Intermediate.crt
   
+**Server CA**  
+openssl verify -verbose -CAfile Intermediate.crt Server.crt  
+or  
+openssl verify -CAfile RootCA.crt -untrusted Intermediate.crt Server.crt
   
